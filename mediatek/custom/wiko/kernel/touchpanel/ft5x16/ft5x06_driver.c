@@ -163,7 +163,7 @@ static  void tpd_down(tinno_ts_data *ts, int x, int y, int pressure, int trackID
 #ifdef CONFIG_TOUCHSCREEN_SWEEP2WAKE
 		if (sweep2wake) {
 printk("[SWEEP2WAKE]: detecting sweep\n");
-			detect_sweep2wake(x, y, jiffies, id);
+			detect_sweep2wake(x, y, jiffies, trackID);
 		}
 #endif
 
@@ -462,7 +462,7 @@ printk("[SWEEP2WAKE]: detecting d2w\n");
                 #if 1
 			if(ts->pcount > 0)
 			{
-                           s2w_st_flag = cinfo.count;
+                           s2w_st_flag = ts->pcount;
 				for ( i=0; i < ts->pcount; i++ )
 				{
 					tpd_down(ts, touch_point[i].x, touch_point[i].y, touch_point[i].pressure, touch_point[i].touch_id);//<20120714><for multi-touch id>wangyanhui
@@ -797,7 +797,6 @@ printk("[SWEEP2WAKE]: resume\n");
 	mt65xx_eint_unmask(CUST_EINT_TOUCH_PANEL_NUM);
 #endif
 }
-#endif
  
 //Clear the unfinished touch event, simulate a up event if there this a pen down or move event.
 void ft5x06_complete_unfinished_event( void )
