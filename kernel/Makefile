@@ -195,7 +195,7 @@ export KBUILD_BUILDHOST := $(SUBARCH)
 #ARCH		?= $(SUBARCH)
 #CROSS_COMPILE	?= $(CONFIG_CROSS_COMPILE:"%"=%)
 ARCH		?= arm
-CROSS_COMPILE	?= /root/android/toolchain-4.6.3/bin/arm-linux-androideabi-
+CROSS_COMPILE	?= /media/kashifmin/6dfe573d-8690-491d-9b7b-f5d42bbe27d1/root/android/toolchain-4.6.3/bin/arm-linux-androideabi-
 
 # Architecture as present in compile.h
 UTS_MACHINE 	:= $(ARCH)

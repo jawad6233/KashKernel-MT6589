@@ -1,7 +1,6 @@
 ifneq (true,$(__mtk_main_makefile_include))
 __mtk_main_makefile_include := true
 
-PROJECT = wiko
 
 # Makefile - global makefile for all building system to include
 ifneq (,$(PROJECT))

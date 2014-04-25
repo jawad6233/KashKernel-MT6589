@@ -33,8 +33,8 @@
 
 /* Tuneables */
 #define DEBUG                   1
-#define DEFAULT_S2W_Y_LIMIT             800
-#define DEFAULT_S2W_X_MAX               450
+#define DEFAULT_S2W_Y_LIMIT             1230
+#define DEFAULT_S2W_X_MAX               690
 #define DEFAULT_S2W_X_B1                50
 #define DEFAULT_S2W_X_B2                150
 #define DEFAULT_S2W_X_FINAL             50
@@ -44,8 +44,8 @@
 extern bool is_single_touch(void);
 
 /* Resources */
-int sweep2wake = 2;
-int doubletap2wake = 1;
+int sweep2wake = 0;
+int doubletap2wake = 0;
 int dt2w_switch_temp = 1;
 int dt2w_changed = 0;
 bool scr_suspended = false, exec_count = true;

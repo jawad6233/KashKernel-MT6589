@@ -157,9 +157,9 @@ static void init_lcm_registers(void)
 
      data_array[0] = 0x00103902;                          
       data_array[1] = 0x24007cb1;      
-      data_array[2] = 0x11110189;   //0x11110109  //<20130318>wangyanhui
+      data_array[2] = 0x11110109;   
       data_array[3] = 0x26263e36;   
-      data_array[4] = 0xe6011a57;   //0a
+      data_array[4] = 0xe6011a57;   //0a   	  
       dsi_set_cmdq(data_array, 5, 1);
 	  
   	//{0xB1,	15,	{0x7C, 0x00, 0x24, 0x09,		// set power
@@ -201,7 +201,7 @@ static void init_lcm_registers(void)
       data_array[1] = 0x000000b4;      
       data_array[2] = 0x42410605;   
       data_array[3] = 0x43424102;   
-      data_array[4] = 0x58581947;   //0x60581947 //<20130318>wangyanhui
+      data_array[4] = 0x60581947;   
       data_array[5] = 0x00108508;   	  
       dsi_set_cmdq(data_array, 6, 1);
 	  
@@ -212,7 +212,7 @@ static void init_lcm_registers(void)
   				  //0x85, 0x10}},    
     
      data_array[0] = 0x00193902;                          
-      data_array[1] = 0x00014cd5;    //0x07014cd5   //<20130318>wangyanhui
+      data_array[1] = 0x07014cd5;      
       data_array[2] = 0xef23cd01;   
       data_array[3] = 0xab896745;   
       data_array[4] = 0x10dc0011;   
@@ -285,27 +285,14 @@ static void init_lcm_registers(void)
 //add end //wangyanhui add 
 
       data_array[0] = 0x00023902;                          
-      data_array[1] = 0x00002ab6;       //0x00002ab6
+      data_array[1] = 0x00002ab6;       
       dsi_set_cmdq(data_array, 2, 1);  
-
-//add  CE START
-#if 0
-      data_array[0] = 0x00023902;                          
-      data_array[1] = 0x000001e6;       //0x00002ab6
-      dsi_set_cmdq(data_array, 2, 1);  
-
-
-      data_array[0] = 0x00023902;                          
-      data_array[1] = 0x000003e4;       //0x00002ab6
-      dsi_set_cmdq(data_array, 2, 1);  
-#endif	  
-//add  CE  END
 	  
 	//{0xB6, 	1,	{0x2A}},						//Set VCOM
 	data_array[0] = 0x00110500; // Sleep Out
 	dsi_set_cmdq(data_array, 1, 1);
 	MDELAY(120);
-	  
+	
 	data_array[0] = 0x00290500; // Display On
 	dsi_set_cmdq(data_array, 1, 1);
 	MDELAY(120);
@@ -369,17 +356,17 @@ static void lcm_get_params(LCM_PARAMS *params)
 		params->dsi.PS=LCM_PACKED_PS_24BIT_RGB888;
 		params->dsi.word_count=720*3;	
 
-		//BEGIN<20130325>wangyanhui modify
+		
 		params->dsi.vertical_sync_active				= 3;  //---3
-		params->dsi.vertical_backporch					= 11; //---14
-		params->dsi.vertical_frontporch					= 8;  //----8
+		params->dsi.vertical_backporch					= 12; //---14
+		params->dsi.vertical_frontporch					= 2;  //----8
 		params->dsi.vertical_active_line				= FRAME_HEIGHT; 
 
-		params->dsi.horizontal_sync_active				= 10;		// 2;  //----2
-		params->dsi.horizontal_backporch				= 80;			// 28; //----28
-		params->dsi.horizontal_frontporch				= 80;			// 50; //----50
+		params->dsi.horizontal_sync_active				= 26;		// 2;  //----2
+		params->dsi.horizontal_backporch				= 146;			// 28; //----28
+		params->dsi.horizontal_frontporch				= 146;			// 50; //----50
 		params->dsi.horizontal_active_pixel				= FRAME_WIDTH;
-		//END<20130325>wangyanhui modify
+
 
         //	params->dsi.HS_PRPR=6;
 	    params->dsi.LPX=8; 
@@ -477,47 +464,41 @@ static void lcm_update(unsigned int x, unsigned int y,
 
 static unsigned int lcm_compare_id(void)
 {
-	unsigned int id0,id1,id=0;
+
+
+    unsigned int id0,id1,id=0;
 	unsigned char buffer[2];
 	unsigned int array[16];  
 
-	SET_RESET_PIN(1);
-	SET_RESET_PIN(0);
-	MDELAY(1);
-	SET_RESET_PIN(1);
-	MDELAY(20);
+    SET_RESET_PIN(1);
+    SET_RESET_PIN(0);
+    MDELAY(1);
+    SET_RESET_PIN(1);
+    MDELAY(10);
 
-	array[0] = 0x00043902;                          
-	array[1] = 0x9483ffb9;                 
-	dsi_set_cmdq(array, 2, 1);
+      array[0] = 0x00043902;                          
+      array[1] = 0x9483ffb9;                 
+      dsi_set_cmdq(array, 2, 1);
 	  
-	array[0] = 0x00123902;                          
-	array[1] = 0x008313ba;      
-	array[2] = 0x0811a616;   
-	array[3] = 0x03240fff;   
-	array[4] = 0x20252421;   
-	array[5] = 0x00001002;   	  
-	dsi_set_cmdq(array, 6, 1);
-	  
-	MDELAY(1);
-	memset(buffer, 0, sizeof(buffer));
-	array[0] = 0x00023700;// return byte number
-	dsi_set_cmdq(&array, 1, 1);
-	//MDELAY(5);
+	MDELAY(10);
 
+    memset(buffer, 0, sizeof(buffer));
 	read_reg_v2(0xf4, buffer, 1);
 	id=buffer[0];
+	
     #ifdef BUILD_LK
-	printf("%s, LK hx8394a id0 = 0x%08x\n", __func__, id0);
-	printf("%s, LK hx8394a id1 = 0x%08x\n", __func__, id1);
-	printf("%s, LK hx8394a id = 0x%08x\n", __func__, id);
+	printf("%s, LK ssd2075 id0 = 0x%08x\n", __func__, id0);
+	printf("%s, LK ssd2075 id1 = 0x%08x\n", __func__, id1);
+	printf("%s, LK ssd2075 id = 0x%08x\n", __func__, id);
    #else
-	printk("%s, Kernel hx8394a id0 = 0x%08x\n", __func__, id0);
-	printk("%s, Kernel hx8394a id1 = 0x%08x\n", __func__, id1);
-	printk("%s, Kernel hx8394a id = 0x%08x\n", __func__, id);
+	printk("%s, Kernel ssd2075 id0 = 0x%08x\n", __func__, id0);
+	printk("%s, Kernel ssd2075 id1 = 0x%08x\n", __func__, id1);
+	printk("%s, Kernel ssd2075 id = 0x%08x\n", __func__, id);
    #endif
 
-	return (LCM_ID_HX8394 == id)?1:0;
+  return (LCM_ID_HX8394 == id)?1:0;
+
+
 }
 
 #if 0
